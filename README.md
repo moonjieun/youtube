@@ -1,4 +1,4 @@
-# [Youtube](https://sparkling-fudge-c32123.netlify.app/)
+# [Youtube](https://celebrated-monstera-6b9719.netlify.app/)
 
 ### 유튜브 클론코딩
 
@@ -27,8 +27,53 @@
 - Video Detail Page
 
   <br>
-  <br>
 
 # 🎫 실행화면
 
+<img width="80%" src="https://user-images.githubusercontent.com/102341066/235082450-3072d070-6cbb-445c-8e48-4fedc86faefb.gif"/>
+
+<br>
+<br>
+
 # 🔎 핵심 기능보기 🔎
+
+## 🔑 실제 API 사용
+
+재사용성, 유지보수를 위해 네트워크통신은 api폴더에 보관/=> 가져와 컴포넌트에서 사용
+
+`youtube.js` 에서 class를 이용 `프라이빗함수` 생성
+
+```js
+//검색 키워드가 있으면 검색관한 데이터, 아니면 인기동영상표시
+  async search(keyword) {
+    return keyword ? this.#searchByKeyword(keyword) : this.#mostPopular();
+  }
+```
+
+```js
+`YotubeApiContext.jsx`;
+
+// const client = new FakeYoutubeClient();
+const client = new YoutubeClient();
+const youtube = new Youtube(client);
+```
+
+※하루 서버 접근제한수가 있음※<br>
+`fakeYoutubeClient.js` 에서는 postman에서 받아온 데이터를 복사한 json파일을 생성/ =>가져와 사용
+`YoutubeClient.js` 실제 youtube api를 이용
+`Videos` component에서는 `Contextapi`로부터 공유받은 인스턴스를 가져와 `search함수` 사용
+
+```js
+`Videos.jsx`;
+
+const { keyword } = useParams();
+const { youtube } = useYoutubeApi();
+const {
+  isLoading,
+  error,
+  data: videos,
+} = useQuery(["videos", keyword], () => youtube.search(keyword), {
+  staleTime: 1000 * 60 * 1,
+});
+```
+
