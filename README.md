@@ -59,7 +59,6 @@ const client = new YoutubeClient();
 const youtube = new Youtube(client);
 ```
 
-※하루 서버 접근제한수가 있음※<br>
 `fakeYoutubeClient.js` 에서는 postman에서 받아온 데이터를 복사한 json파일을 생성/ =>가져와 사용
 `YoutubeClient.js` 실제 youtube api를 이용
 `Videos` component에서는 `Contextapi`로부터 공유받은 인스턴스를 가져와 `search함수` 사용
